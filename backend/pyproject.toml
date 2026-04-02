@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ecb-cost-of-borrowing"
+version = "1.0.0"
+description = "ECB Cost of Borrowing API"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "DeepMind", email = "antigravity@google.com" },
+]
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.6",
+    "sqlmodel>=0.0.22",
+    "psycopg2-binary>=2.9.9",
+    "pydantic-settings>=2.0.0",
+    "httpx>=0.27.2",
+    "alembic>=1.13.3",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.1",
+    "python-json-logger>=2.0.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.24.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.6.0",
+    "mypy>=1.11.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["core", "domains"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "C90", "B"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
