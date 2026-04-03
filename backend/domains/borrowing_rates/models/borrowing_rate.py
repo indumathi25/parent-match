@@ -1,5 +1,8 @@
 from datetime import date
-from sqlmodel import SQLModel, Field, Index
+from typing import Optional
+
+from sqlalchemy import Index
+from sqlmodel import Field, SQLModel
 
 
 class BorrowingRate(SQLModel, table=True):
@@ -8,9 +11,4 @@ class BorrowingRate(SQLModel, table=True):
     series_key: str = Field(primary_key=True)
     period: date = Field(primary_key=True)
     value: float
-    unit: str | None = None
-
-    __table_args__ = (
-        Index("idx_period", "period"),
-        Index("idx_series_period", "series_key", "period"),
-    )
+    unit: Optional[str] = None

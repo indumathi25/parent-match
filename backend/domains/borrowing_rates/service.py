@@ -1,6 +1,5 @@
 import logging
 import httpx
-from datetime import date
 from .repository import BorrowingRatesRepository
 from .utils import handle_service_exceptions
 from .mapper import map_ecb_payload_to_records
@@ -47,7 +46,6 @@ class BorrowingRatesService:
 
     @handle_service_exceptions(logger, "Failed to retrieve borrowing rates")
     def get_rates(self) -> list[dict]:
-        """Get all borrowing rates from database."""
         logger.info("Retrieving rates from database")
         return self.repository.get_all_records()
 

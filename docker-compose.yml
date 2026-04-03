@@ -11,12 +11,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ecb -d ecb_data']
+      test: [ 'CMD-SHELL', 'pg_isready -U ecb -d ecb_data' ]
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - ecb-network
 
   backend:
     container_name: backend
@@ -31,8 +29,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - ecb-network
 
   cron:
     image: alpine:latest
@@ -44,9 +40,19 @@ services:
     depends_on:
       - backend
 
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - '3001:5173'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
 
-networks:
-  ecb-network:
-    driver: bridge
+

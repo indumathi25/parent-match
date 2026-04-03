@@ -17,9 +17,12 @@ export const Dashboard: React.FC = React.memo(() => {
   return (
     <div className="font-sans text-gray-900 bg-white min-h-screen flex flex-col items-center">
       <div className="w-full max-w-7xl px-4 md:px-8 py-4 md:py-8 flex flex-col flex-1 gap-6">
-        <h1 className="text-xl md:text-3xl font-bold text-gray-800 border-b pb-4">
-          ECB Borrowing Dashboard
-        </h1>
+        <div className="flex items-center gap-3 border-b pb-4">
+          <img src="/ecb.png" alt="ECB Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+          <h1 className="text-xl md:text-3xl font-bold text-gray-800">
+            ECB Borrowing Dashboard
+          </h1>
+        </div>
 
         {latestDataPoint && !isLoading && !isError && (
           <div className="flex flex-col gap-1">

@@ -2,6 +2,8 @@
 
 This is the backend service for the ECB Borrowing Application, providing an API for ingesting and retrieving cost of borrowing data from the European Central Bank.
 
+For full project architecture, please see the [Main Project README](../README.md).
+
 ## Tech Stack
 
 - Framework: FastAPI (Python)
