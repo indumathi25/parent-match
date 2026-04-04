@@ -10,6 +10,7 @@ export const Dashboard: React.FC = React.memo(() => {
     latestDataPoint,
     isLoading,
     isError,
+    errorMessage,
     syncMutation,
     handleSyncClick,
   } = useDashboard();
@@ -42,13 +43,14 @@ export const Dashboard: React.FC = React.memo(() => {
 
         <div className="flex-1 flex flex-col relative min-h-[400px]">
           {isLoading && <StatusDisplay variant="loading" />}
-          {isError && <StatusDisplay variant="error" />}
+          {isError && <StatusDisplay variant="error" errorMessage={errorMessage} />}
 
           {rawData.length === 0 && !isLoading && !isError && (
             <StatusDisplay
               variant="empty"
               onSync={handleSyncClick}
               isSyncing={syncMutation.isPending}
+              errorMessage={errorMessage}
             />
           )}
 

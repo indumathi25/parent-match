@@ -29,17 +29,18 @@ app = FastAPI(
 )
 
 
-@app.exception_handler(ApplicationError)
-async def application_error_handler(request: Request, exc: ApplicationError):
-    message = exc.message if config.DEBUG else "An error occurred"
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={
-            "error_code": exc.code,
-            "message": message,
-            "details": exc.details if config.DEBUG else {},
-        },
-    )
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    if isinstance(exc, ApplicationError):
+        return exc.to_response(debug=config.DEBUG)
+
+    logger.exception("An unexpected error occurred.")
+    return ApplicationError(
+        message="An unexpected server error occurred.",
+        status_code=500,
+        code="INTERNAL_SERVER_ERROR",
+        details={"error": str(exc)}
+    ).to_response(debug=config.DEBUG)
 
 
 @app.get("/health")

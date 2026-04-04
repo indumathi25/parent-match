@@ -13,4 +13,5 @@ export interface StatusDisplayProps {
   variant: StatusVariant;
   onSync?: () => void;
   isSyncing?: boolean;
+  errorMessage?: string;
 }

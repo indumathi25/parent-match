@@ -1,7 +1,7 @@
 import React from 'react';
 import type { StatusDisplayProps } from '../types/index.ts';
 
-export const StatusDisplay: React.FC<StatusDisplayProps> = React.memo(({ variant, onSync, isSyncing }) => {
+export const StatusDisplay: React.FC<StatusDisplayProps> = React.memo(({ variant, onSync, isSyncing, errorMessage }) => {
   switch (variant) {
     case 'loading':
       return (
@@ -13,7 +13,9 @@ export const StatusDisplay: React.FC<StatusDisplayProps> = React.memo(({ variant
     case 'error':
       return (
         <div className="flex flex-col items-center justify-center p-12 text-red-600 bg-red-50 rounded-lg">
-          Failed to fetch data from the API. Please try again later.
+          <p className="font-semibold mb-2 text-center">
+            {errorMessage || 'Failed to fetch data from the API. Please try again later.'}
+          </p>
         </div>
       );
     case 'empty':
