@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+/* Ensure pointer cursor for all buttons and links */
+button, 
+a, 
+[role="button"],
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Ensure text cursor for all inputs and textareas */
+textarea, 
+input {
+  cursor: text !important;
+  caret-color: #4f46e5 !important; /* indigo-600 */
+}

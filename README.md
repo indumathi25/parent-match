@@ -1,57 +1,107 @@
-# ECB Borrowing Dashboard
+# Parent Match
 
-A simple, modern dashboard to track and visualize borrowing rates from the European Central Bank (ECB) for businesses across the Euro Area.
-
-### Future Growth (Scaling Up)
-As the project grows, we have a clear plan for making it more powerful:
-- **More Frequent Updates**: If we ever need to update data every day instead of once a month, we can easily plug in a more powerful background system (called **Redis & Celery**).
-- **Handling More Work**: If the data starts to get too heavy for one computer to process, we can add more "digital workers" (**Celery workers**) to share the work and keep things fast.
-- **Better Tracking**: We can add a simple dashboard (like **Flower**) that shows us exactly when tasks run and alerts us if something goes wrong.
-
----
+A simple, modern social feed application where parents can post their queries and the community can view and comment.
 
 ## Tech Stack
 
 ### Backend
-- **FastAPI**: High-performance Python framework for building APIs.
-- **SQLModel**: A modern library that combines SQLAlchemy and Pydantic for seamless database interactions and type safety.
-- **PostgreSQL**: Robust, scalable relational database for persistent storage.
-- **Docker**: Containerized environment for consistent deployment.
+
+- **FastAPI** — High-performance Python framework for building APIs
+- **SQLModel** — Combines SQLAlchemy and Pydantic for database interactions and type safety
+- **PostgreSQL** — Relational database for persistent storage
+- **Auth0 (JWT)** — Token verification via RS256-signed JWTs
+- **Docker** — Containerised environment for consistent deployment
 
 ### Frontend
-- **React + TypeScript**: Type-safe, component-based UI development.
-- **Vite**: Ultra-fast build tool and development server.
-- **Chart.js**: Flexible and responsive data visualization.
-- **Tailwind CSS**: Utility-first CSS framework for a premium design feel.
+
+- **React + TypeScript** — Type-safe, component-based UI
+- **Vite** — Fast build tool and development server
+- **Tailwind CSS** — Utility-first CSS framework
+- **Framer Motion** — Micro-animations
+- **Auth0 React SDK** — Authentication with PKCE flow
+- **TanStack Query** — Server state management and data fetching
+
+---
+
+## What's Inside
+
+Parent Match application is built with the following features:
+
+### Backend
+
+- `posts` domain with support for posts and nested comments
+- `core/auth.py` — JWT verification using Auth0 JWKS endpoint
+- `core/config.py` — `AUTH0_DOMAIN` and `AUTH0_AUDIENCE` config values
+- `POST /posts` and `POST /posts/{id}/comments` are protected with Auth0 JWT auth
+- `GET /posts` is public so unauthenticated users can browse the feed
+
+### Frontend
+
+- Social feed UI with post creation and comment sections
+- Auth0 React SDK (`@auth0/auth0-react`) for sign-in / sign-out
+- `AuthProvider` component wrapping the app with Auth0 context
+- `src/config/auth.ts` for centralised Auth0 configuration
+- `src/core/api/client.ts` — Axios client that attaches the Auth0 bearer token to requests
+- Navbar shows user avatar, name, and email when authenticated
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
+
 - Docker & Docker Compose
-- Node.js (for local development)
-- Python 3.10+ (for local development)
+- An Auth0 account with a configured tenant
+
+### Environment Variables
+
+**`frontend/.env`**
+
+```
+VITE_AUTH0_DOMAIN=your-tenant.us.auth0.com
+VITE_AUTH0_CLIENT_ID=your_client_id
+VITE_AUTH0_AUDIENCE=parent-match-v1
+VITE_API_BASE_URL=/api/v1
+```
+
+**`backend/.env`**
+
+```
+ENVIRONMENT=default
+DB_URL=postgresql://parent_match:parent_match@db:5432/parent_match_data
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+DEBUG=False
+AUTH0_DOMAIN=your-tenant.us.auth0.com
+AUTH0_AUDIENCE=parent-match-v1
+```
 
 ### Running the Application
-The easiest way to get started is using the provided `Makefile`:
 
 ```bash
-make up
-
-make logs
-
-make test
+docker compose up -d
 ```
 
 The application will be available at:
-- **Frontend**: [http://localhost:3001](http://localhost:3001)
-- **Backend API**: [http://localhost:8000/docs](http://localhost:8000/docs) (Swagger UI)
+
+- **Frontend**: http://localhost:3001
+- **Backend API docs**: http://localhost:8000/docs
+
+---
+
+## API Endpoints
+
+| Method | Path                          | Auth Required | Description             |
+| ------ | ----------------------------- | ------------- | ----------------------- |
+| `GET`  | `/api/v1/posts`               | No            | List all posts          |
+| `POST` | `/api/v1/posts`               | Yes           | Create a new post       |
+| `POST` | `/api/v1/posts/{id}/comments` | Yes           | Add a comment to a post |
 
 ---
 
 ## Key Features
-- **One-Click Setup**: Easily sync the latest data from the ECB when you first open the app.
-- **Interactive Graphs**: High-quality charts that show precise values as you move through the timeline.
-- **Works Anywhere**: Fully responsive design that looks great on your phone, tablet, or desktop.
-- **Set It and Forget It**: Automatic monthly updates ensure the dashboard is always fresh without any manual work.
+
+- **Public feed** — Anyone can browse posts without signing in
+- **Authenticated posting** — Sign in with Auth0 to create posts and comments
+- **Author attribution** — Post and comment author names are pulled from the Auth0 JWT
+- **Polling** — Feed refreshes every 5 seconds for a real-time feel
+- **Responsive design** — Works on mobile, tablet, and desktop

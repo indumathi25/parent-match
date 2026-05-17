@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 def validate_required_env_vars() -> None:
-    required_vars = ["DB_URL", "ECB_API_URL", "SERIES_KEY"]
+    required_vars = ["DB_URL"]
     missing = [var for var in required_vars if not os.getenv(var)]
     if missing and os.getenv("ENVIRONMENT", "default").lower() != "testing":
         logger.error(f"Missing required environment variables: {missing}")
@@ -19,18 +19,19 @@ def validate_required_env_vars() -> None:
 
 
 class DefaultConfig(object):
-    PROJECT = "Cost of Borrowing API"
+    PROJECT = "Parent Match API"
     PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     TESTING = False
     DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
     DATABASE_URL = os.getenv("DB_URL")
-    ECB_API_URL = os.getenv("ECB_API_URL")
-    SERIES_KEY = os.getenv("SERIES_KEY")
+
     DB_CHUNK_SIZE = 100
     ALLOWED_ORIGINS = os.getenv(
         "ALLOWED_ORIGINS", "http://localhost:3000"
     ).split(",")
-    API_TITLE = "Cost of Borrowing API"
+    AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN", "YOUR_AUTH0_DOMAIN")
+    AUTH0_AUDIENCE = os.getenv("AUTH0_AUDIENCE", "YOUR_AUTH0_AUDIENCE")
+    API_TITLE = "Parent Match API"
     API_VERSION = "1.0.0"
 
     dictConfig(

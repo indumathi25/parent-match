@@ -12,8 +12,3 @@ def client():
 def mock_db(mocker):
     return mocker.patch('core.extensions.db.session')
 
-
-@pytest.fixture
-def mock_repository(mocker):
-    from domains.borrowing_rates.repository import BorrowingRatesRepository
-    return mocker.Mock(spec=BorrowingRatesRepository)

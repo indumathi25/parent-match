@@ -23,9 +23,7 @@ def check_db_connection() -> None:
 
 
 def init_db() -> None:
-    from domains.borrowing_rates.models.borrowing_rate import (  # noqa: F401
-        BorrowingRate,
-    )
+
     logger.info(
         "Database initialization complete (Migrations handle schema)."
     )

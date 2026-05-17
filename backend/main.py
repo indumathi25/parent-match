@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.database import init_db, check_db_connection
 from core.config import config
 from core.exceptions import ApplicationError
-from domains.borrowing_rates.router import router as borrowing_rates_router
+from domains.posts.router import router as posts_router
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down...")
 
 app = FastAPI(
-    title="Cost of Borrowing API",
+    title="Parent Match API",
     version="1.0.0",
     lifespan=lifespan,
 )
@@ -56,7 +56,7 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization"],
 )
 
-app.include_router(borrowing_rates_router, prefix="/api/v1")
+app.include_router(posts_router, prefix="/api/v1")
 
 if __name__ == "__main__":
     import uvicorn

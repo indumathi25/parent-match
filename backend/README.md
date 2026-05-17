@@ -1,6 +1,6 @@
-# ECB Cost of Borrowing API
+# Parent Match API
 
-This is the backend service for the ECB Borrowing Application, providing an API for ingesting and retrieving cost of borrowing data from the European Central Bank.
+This is the backend service for the Parent Match Application, providing a community platform for parents to share queries and advice.
 
 For full project architecture, please see the [Main Project README](../README.md).
 

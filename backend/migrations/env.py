@@ -9,6 +9,9 @@ from alembic import context
 from sqlmodel import SQLModel
 from core.config import config as app_config
 
+# Import models for Alembic autogenerate
+from domains.posts.models import Post, Comment
+
 sys.path.insert(
     0,
     os.path.realpath(
