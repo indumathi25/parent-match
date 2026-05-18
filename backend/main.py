@@ -7,6 +7,7 @@ from core.database import init_db, check_db_connection
 from core.config import config
 from core.exceptions import ApplicationError
 from domains.posts.router import router as posts_router
+from domains.users.router import router as users_router
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +58,7 @@ app.add_middleware(
 )
 
 app.include_router(posts_router, prefix="/api/v1")
+app.include_router(users_router, prefix="/api/v1")
 
 if __name__ == "__main__":
     import uvicorn

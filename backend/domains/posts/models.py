@@ -8,6 +8,7 @@ class PostBase(SQLModel):
     content: str
     category: str = Field(index=True)
     author_name: str = Field(index=True)
+    auth0_sub: Optional[str] = Field(default=None, index=True)
 
 class Post(PostBase, table=True):
     __tablename__ = "posts"

@@ -11,6 +11,7 @@ from core.config import config as app_config
 
 # Import models for Alembic autogenerate
 from domains.posts.models import Post, Comment
+from domains.users.models import User
 
 sys.path.insert(
     0,

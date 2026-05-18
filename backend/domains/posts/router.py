@@ -24,6 +24,7 @@ def create_post(
     db_post = Post.model_validate(post_in)
     if current_user.name:
         db_post.author_name = current_user.name
+    db_post.auth0_sub = current_user.sub
     session.add(db_post)
     session.commit()
     session.refresh(db_post)
